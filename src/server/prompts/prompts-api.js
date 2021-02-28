@@ -39,4 +39,7 @@ function getRandomPrompt() {
 	return randomItemFrom(prompts);
 }
 
-export { loadPrompts, getRandomPrompt };
+function getPromptCount(){
+	return prompts.length;
+}
+export { loadPrompts, getRandomPrompt, getPromptCount };

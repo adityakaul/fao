@@ -6,6 +6,7 @@ import * as Util from '../common/util.js';
 import * as Prompts from './prompts/prompts-api.js';
 
 const MAX_USERS = 10;
+var promptsSeen = [];
 
 class GameRoom {
 	constructor(roomCode, host) {
@@ -59,7 +60,19 @@ class GameRoom {
 		this.shuffleUsers();
 		this.phase = GAME_PHASE.PLAY;
 		this.turn = 1;
-		let prompt = Prompts.getRandomPrompt(); // TODO ensure no duplicate prompt
+		let prompt;
+
+		// Check to see if we have exhausted all prompts
+		if(promptsSeen.length == Prompts.getPromptCount())
+		{
+			promptsSeen = [];
+		}
+		do
+		{
+			prompt = Prompts.getRandomPrompt();
+		}
+		while(promptsSeen.includes(prompt.keyword))
+		promptsSeen.push(prompt.keyword)
 		this.keyword = prompt.keyword;
 		this.hint = prompt.hint;
 		this.faker = Util.randomItemFrom(this.users);
